@@ -1,4 +1,3 @@
-
 FROM python:2.7.14-jessie
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -78,5 +77,3 @@ WORKDIR /
 RUN git clone https://github.com/derv82/wifite2.git
 WORKDIR /wifite2/
 ENTRYPOINT ["python Wifite.py"]
-
-
