@@ -16,7 +16,7 @@ RUN wget http://download.aircrack-ng.org/aircrack-ng-1.2-rc4.tar.gz
 RUN tar xzvf aircrack-ng-1.2-rc4.tar.gz
 WORKDIR /aircrack-ng-1.2-rc4/
 RUN make
-RUN make installl
+RUN make install
 RUN airodump-ng-oui-update
 
 # Workdir /
