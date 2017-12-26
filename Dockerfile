@@ -1,7 +1,7 @@
 FROM python:2.7.14-jessie
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV HASHCAT_VERSION hashcat-3.6.0
+ENV HASHCAT_VERSION hashcat-4.0.1
 
 # Intall requirements
 RUN echo "deb-src http://deb.debian.org/debian jessie main" >> /etc/apt/sources.list
@@ -24,7 +24,7 @@ WORKDIR /
 
 # Install wps-pixie
 RUN git clone https://github.com/wiire/pixiewps
-WORKDIR /pixiewps/src/
+WORKDIR /pixiewps/
 RUN make
 RUN make install
 
@@ -75,5 +75,7 @@ WORKDIR /
 
 # Install wifite
 RUN git clone https://github.com/derv82/wifite2.git
+RUN chmod -R 777 /wifite2/
 WORKDIR /wifite2/
-ENTRYPOINT ["python Wifite.py"]
+RUN apt-get install rfkill -y
+ENTRYPOINT ["python","Wifite.py"]
