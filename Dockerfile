@@ -15,6 +15,8 @@ RUN apt-get build-dep aircrack-ng -y
 RUN wget https://download.aircrack-ng.org/aircrack-ng-1.5.2.tar.gz
 RUN tar xzvf aircrack-ng-1.5.2.tar.gz
 WORKDIR /aircrack-ng-1.5.2/
+RUN autoreconf -i
+RUN ./configure --with-experimental
 RUN make
 RUN make install
 RUN airodump-ng-oui-update
@@ -32,6 +34,24 @@ RUN make install
 # Workdir /
 WORKDIR /
 
+
+# Install hcxdump
+RUN git clone https://github.com/ZerBea/hcxdumptool.git
+WORKDIR /hcxdumptool/
+RUN make
+RUN make install
+
+# Workdir /
+WORKDIR /
+
+# Install hcxtools
+RUN git clone https://github.com/ZerBea/hcxtools.git
+WORKDIR /hcxtools/
+RUN make
+RUN make install
+
+# Workdir /
+WORKDIR /
 
 # Install bully
 RUN git clone https://github.com/aanarchyy/bully
