@@ -2,6 +2,7 @@ FROM python:2.7.14-jessie
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV HASHCAT_VERSION hashcat-5.1.0
+ENV HASHCAT_UTILS_VERSION  1.9
 
 # Intall requirements
 RUN echo "deb-src http://deb.debian.org/debian jessie main" >> /etc/apt/sources.list
@@ -65,14 +66,27 @@ RUN make install
 WORKDIR /
 
 #Install and configure hashcat
-RUN mkdir hashcat && \
-    cd hashcat && \
-    wget http://hashcat.net/files/${HASHCAT_VERSION}.7z && \
-    7zr e ${HASHCAT_VERSION}.7z
+RUN mkdir /hashcat
 
+#Install and configure hashcat: it's either the latest release or in legacy files
+RUN cd /hashcat && \
+    wget --no-check-certificate https://hashcat.net/files/${HASHCAT_VERSION}.7z && \
+    7zr x ${HASHCAT_VERSION}.7z && \
+    rm ${HASHCAT_VERSION}.7z
+
+RUN cd /hashcat && \
+    wget https://github.com/hashcat/hashcat-utils/releases/download/v${HASHCAT_UTILS_VERSION}/hashcat-utils-${HASHCAT_UTILS_VERSION}.7z && \
+    7zr x hashcat-utils-${HASHCAT_UTILS_VERSION}.7z && \
+    rm hashcat-utils-${HASHCAT_UTILS_VERSION}.7z
 
 #Add link for binary
-RUN ln -s /hashcat/hashcat-cli64.bin /usr/bin/hashcat
+RUN ln -s /hashcat/${HASHCAT_VERSION}/hashcat64.bin /usr/bin/hashcat
+RUN ln -s /hashcat/hashcat-utils-${HASHCAT_UTILS_VERSION}/bin/cap2hccapx.bin /usr/bin/cap2hccapx
+
+# Workdir /
+WORKDIR /
+
+
 
 
 # Install reaver
