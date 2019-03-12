@@ -1,7 +1,7 @@
 FROM python:2.7.14-jessie
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV HASHCAT_VERSION hashcat-4.0.1
+ENV HASHCAT_VERSION hashcat-5.1.0
 
 # Intall requirements
 RUN echo "deb-src http://deb.debian.org/debian jessie main" >> /etc/apt/sources.list
@@ -12,9 +12,9 @@ RUN apt-get build-dep aircrack-ng -y
 
 
 #Install Aircrack from Source
-RUN wget http://download.aircrack-ng.org/aircrack-ng-1.2-rc4.tar.gz
-RUN tar xzvf aircrack-ng-1.2-rc4.tar.gz
-WORKDIR /aircrack-ng-1.2-rc4/
+RUN wget https://download.aircrack-ng.org/aircrack-ng-1.5.2.tar.gz
+RUN tar xzvf aircrack-ng-1.5.2.tar.gz
+WORKDIR /aircrack-ng-1.5.2/
 RUN make
 RUN make install
 RUN airodump-ng-oui-update
